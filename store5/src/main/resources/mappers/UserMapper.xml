@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="cn.tedu.store.mapper.UserMapper">
+
+	<!-- Integer insert(User user) -->
+	<!-- 插入用户数据 -->
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="uid">
+		INSERT INTO t_user (username,password,
+								salt,avatar,
+								phone,email,
+								gender,is_delete,
+								created_user,created_time,
+								modified_user,modified_time
+				) VALUES (#{username},#{password},
+							#{salt},#{avatar},
+							#{phone},#{email},
+							#{gender},#{isDelete},
+							#{createdUser},#{createdTime},
+							#{modifiedUser},#{modifiedTime})
+	</insert>
+	
+	<!-- User findByUsername(String username)-->
+	<!-- 根据用户名查询用户信息 -->
+	
+	<select id="findByUsername" resultType="cn.tedu.store.entity.User">
+		SELECT 
+			uid,
+			password,salt,
+			avatar,username,
+			is_delete AS isDelete
+		FROM 
+			t_user 
+		WHERE 
+			username=#{username}
+	</select>
+	
+	<!--Integer updatePassword(@Param("uid")Integer uid,@Param("password")String password,@Param("modifiedUser")String modifiedUser,@Param("modifiedTime")Date modifiedTime);  -->
+	<!-- 更新用户的密码 -->
+	<update id="updatePassword">
+		UPDATE
+			t_user
+		SET
+			password=#{password},
+			modified_user=#{modifiedUser},
+			modified_time=#{modifiedTime}
+		WHERE
+			uid=#{uid}
+	</update>
+	
+	<!-- User findByUid(Integer uid) -->
+	<!--根据用户id查询用户数据  -->
+	<select id="findByUid" resultType="cn.tedu.store.entity.User">
+		SELECT
+			password,salt,
+			username,phone,
+			gender,email,
+			is_delete AS isDelete
+		FROM
+			t_user
+		WHERE
+			uid=#{uid}
+	</select>
+	
+	<!-- 更新用户个人资料 -->
+	<!-- Integer updateInfo(User user)-->
+	<update id="updateInfo">
+		UPDATE
+			t_user
+		SET
+			phone=#{phone},
+			email=#{email},
+			gender=#{gender},
+			modified_user=#{modifiedUser},
+			modified_time=#{modifiedTime}
+		WHERE
+			uid=#{uid}
+	</update>
+	
+	<!-- Integer updateAvatar(@Param("uid")Integer uid,
+									@Param("avatar")String avatar,
+									@Param("modifiedUser")String modifiedUser,
+									@Param("modifiedTime")Date modifiedTime) -->
+	<!-- 上传用户头像-->
+	<update id="updateAvatar">
+		UPDATE
+			t_user
+		SET
+			avatar=#{avatar},
+			modified_user=#{modifiedUser},
+			modified_time=#{modifiedTime}
+		WHERE
+			uid=#{uid}
+	</update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

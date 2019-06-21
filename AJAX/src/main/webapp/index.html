@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>用户登录</title>
+
+</head>
+<body>
+<form action="login.do" method="post">
+	<h1>用户登录</h1>
+	<div>用户名：</div>
+	<div><input id="username" type="text" name="username"><span id="username-hint"></span></div>
+	<div>密码：</div>
+	<div><input id="password" type="password" name="password"><span id="password-hint"></span></div>
+	<div style="margin-top: 20px;"><input id="btn-login" type="button" value="登录"></div>
+</form>
+<script type="text/javascript" src="jquery-1.4.2.min.js"></script>
+<script type="text/javascript">
+$("#btn-login").click(function(){
+	var u = $("#username").val();
+	var p = $("#password").val();
+	
+	$("#username-hint").html("");
+	$("#password-hint").html("");
+	
+	$.ajax({
+		"url":"user/login.do",
+		"data":"username="+u+"&password="+p,
+		"type":"post",
+		"dataType":"json",
+		"success":function(json){
+			if(json.state==1){
+				alert(json.message);
+			}else if(json.state==2){
+				//密码错误
+				$("#password-hint").html(json.message);
+			}else{
+				//用户名错误
+				$("#username-hint").html(json.message);
+			}
+		}
+	});
+	
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
